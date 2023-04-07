@@ -28,6 +28,8 @@ describe('TournamentsService', () => {
     expect(actual).toEqual({ pseudo: 'userTest', points: DEFAULT_STACK });
   });
 
+  //TODO: Already Exist
+
   it('should call getPlayerInfo', async () => {
     await service.addPlayer('userInfo');
     const actual = await service.getPlayerInfo('userInfo');

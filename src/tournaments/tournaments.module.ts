@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { TournamentsController } from './infra/tournaments.controller';
 import { TournamentsService } from './application/tournaments.service';
 import { InMemoryRepository } from './stubs/InMemoryRepository';
+import { TournamentsController } from './infra/controller/tournaments.controller';
 
 @Module({
   controllers: [TournamentsController],
