@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TournamentsController } from './tournaments.controller';
-import { TournamentsService } from './tournaments.service';
+import { TournamentsService } from '../application/tournaments.service';
 
 describe('TournamentsController', () => {
   let controller: TournamentsController;
@@ -13,9 +13,9 @@ describe('TournamentsController', () => {
         {
           provide: TournamentsService,
           useValue: {
-            getTournament: jest
+            getPlayerInfo: jest
               .fn()
-              .mockReturnValue({ name: 'test1', players: [] }),
+              .mockResolvedValue({ pseudo: 'test1', points: 500 }),
           },
         },
       ],
@@ -29,10 +29,11 @@ describe('TournamentsController', () => {
   });
 
   describe('Find Tournament', () => {
-    it('should return a tournament', () => {
-      expect(controller.getTournament(1)).toEqual({
-        name: 'test1',
-        players: [],
+    it('should return player Info', async () => {
+      const player = await controller.getPlayer('test1');
+      expect(player).toEqual({
+        pseudo: 'test1',
+        points: 500,
       });
     });
   });
