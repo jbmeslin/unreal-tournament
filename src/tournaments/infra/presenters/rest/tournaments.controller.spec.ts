@@ -53,7 +53,8 @@ describe('TournamentsController', () => {
         const player = await controller.getPlayer('test1');
         expect(player).toEqual({
           pseudo: 'test1',
-          points: 500,
+          points: 25000,
+          position: 1,
         });
       });
       it('should throw a NotFoundException', async () => {
@@ -66,14 +67,55 @@ describe('TournamentsController', () => {
     describe('Update Player', () => {
       it('should call updatePlayerPoints', async () => {
         await controller.addPlayer({ pseudo: 'test1' });
-        await controller.updatePlayerPoints('test1', { points: 200 });
+        await controller.updatePlayerPoints('test1', { points: 20000 });
         const actual = await controller.getPlayer('test1');
-        expect(actual).toEqual({ pseudo: 'test1', points: 200 });
+        expect(actual).toEqual({ pseudo: 'test1', points: 20000, position: 1 });
       });
       it('should throw a NotFoundException', async () => {
         await expect(
-          controller.updatePlayerPoints('test1', { points: 200 }),
+          controller.updatePlayerPoints('test1', { points: 20000 }),
         ).rejects.toThrow(NotFoundException);
+      });
+    });
+
+    describe('Get ALL Players', () => {
+      it('should call getPlayers', async () => {
+        await controller.addPlayer({ pseudo: 'p1' });
+        await controller.addPlayer({ pseudo: 'p2' });
+        const actual = await controller.getPlayers();
+        expect(actual).toEqual([
+          {
+            points: 25000,
+            pseudo: 'p1',
+          },
+          {
+            points: 25000,
+            pseudo: 'p2',
+          },
+        ]);
+      });
+      it('should call getPlayers sorted by points', async () => {
+        await controller.addPlayer({ pseudo: 'p1' });
+        await controller.addPlayer({ pseudo: 'p2' });
+        await controller.addPlayer({ pseudo: 'p3' });
+        await controller.updatePlayerPoints('p3', { points: 30000 });
+        await controller.updatePlayerPoints('p2', { points: 20000 });
+
+        const actual = await controller.getPlayers();
+        expect(actual).toEqual([
+          {
+            points: 30000,
+            pseudo: 'p3',
+          },
+          {
+            points: 25000,
+            pseudo: 'p1',
+          },
+          {
+            points: 20000,
+            pseudo: 'p2',
+          },
+        ]);
       });
     });
 
@@ -83,24 +125,6 @@ describe('TournamentsController', () => {
       await expect(controller.getPlayer('userInfo')).rejects.toThrow(
         NotFoundException,
       );
-    });
-
-    it('should call get all player', async () => {
-      await controller.addPlayer({ pseudo: 'p1' });
-      await controller.addPlayer({ pseudo: 'p2' });
-      await controller.updatePlayerPoints('p1', { points: 200 });
-
-      const actual = await controller.getPlayers();
-      expect(actual).toEqual([
-        {
-          points: 200,
-          pseudo: 'p1',
-        },
-        {
-          points: 500,
-          pseudo: 'p2',
-        },
-      ]);
     });
   });
 });

@@ -1,33 +1,37 @@
 import { ITournamentRepository } from '../../../application/ports/output-driven/ITournament.repository';
 import { Player } from '../../../domain/models/Player';
+import { Tournament } from '../../../domain/models/Tournament';
 
-export const DEFAULT_STACK = 500;
+export const DEFAULT_STACK = 25000;
 
 export class InMemoryRepository implements ITournamentRepository {
-  private players: Player[] = [];
+  // private players: Player[] = [];
+  private tournament: Tournament = new Tournament();
 
   addPlayer(pseudo: string): Promise<Player> {
     let player = new Player(pseudo, DEFAULT_STACK);
-    this.players.push(player);
+    this.tournament.players.push(player);
     return Promise.resolve(player);
   }
 
   deletePlayers(): Promise<void> {
-    this.players = [];
+    this.tournament.players = [];
     return Promise.resolve(undefined);
   }
 
-  getPlayerInfo(pseudo: string): Promise<Player> {
-    let player = this.players.filter((p) => p.pseudo === pseudo).pop();
+  getPlayer(pseudo: string): Promise<Player> {
+    let player = this.tournament.players
+      .filter((p) => p.pseudo === pseudo)
+      .pop();
     return Promise.resolve(player);
   }
 
   getPlayers(): Promise<Player[]> {
-    return Promise.resolve(this.players);
+    return Promise.resolve(this.tournament.players);
   }
 
   updatePlayerPoints(player: Player): Promise<void> {
-    this.players = this.players.map((p) => {
+    this.tournament.players = this.tournament.players.map((p) => {
       if (p.pseudo === player.pseudo) {
         return { ...p, points: player.points };
       }

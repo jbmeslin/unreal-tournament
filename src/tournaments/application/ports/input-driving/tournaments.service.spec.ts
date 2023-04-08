@@ -51,7 +51,11 @@ describe('TournamentsService', () => {
     it('should call getPlayerInfo', async () => {
       await service.addPlayer('userInfo');
       const actual = await service.getPlayerInfo('userInfo');
-      expect(actual).toEqual({ pseudo: 'userInfo', points: DEFAULT_STACK });
+      expect(actual).toEqual({
+        pseudo: 'userInfo',
+        points: DEFAULT_STACK,
+        position: 1,
+      });
     });
 
     it('should throw a PlayerNotFoundException', async () => {
@@ -66,15 +70,73 @@ describe('TournamentsService', () => {
   describe('Update Player', () => {
     it('should call updatePlayerPoints', async () => {
       await service.addPlayer('userInfo');
-      await service.updatePlayerPoints('userInfo', 200);
+      await service.updatePlayerPoints('userInfo', 20000);
       const actual = await service.getPlayerInfo('userInfo');
-      expect(actual).toEqual({ pseudo: 'userInfo', points: 200 });
+      expect(actual).toEqual({
+        pseudo: 'userInfo',
+        points: 20000,
+        position: 1,
+      });
+    });
+
+    it('should call updatePlayerPoints and return the good position', async () => {
+      await service.addPlayer('p1');
+      await service.addPlayer('p2');
+      await service.updatePlayerPoints('p1', 20000);
+      const actual = await service.getPlayerInfo('p1');
+      expect(actual).toEqual({
+        pseudo: 'p1',
+        points: 20000,
+        position: 2,
+      });
     });
 
     it('should throw a PlayerNotFoundException', async () => {
-      await expect(service.updatePlayerPoints('userInfo', 200)).rejects.toThrow(
-        PlayerNotFoundException,
-      );
+      await expect(
+        service.updatePlayerPoints('userInfo', 20000),
+      ).rejects.toThrow(PlayerNotFoundException);
+    });
+  });
+
+  describe('Get ALL Players', () => {
+    it('should call getPlayers', async () => {
+      await service.addPlayer('p1');
+      await service.addPlayer('p2');
+
+      const actual = await service.getPlayers();
+      expect(actual).toEqual([
+        {
+          points: 25000,
+          pseudo: 'p1',
+        },
+        {
+          points: 25000,
+          pseudo: 'p2',
+        },
+      ]);
+    });
+    it('should getPlayers sorted by points', async () => {
+      await service.addPlayer('p1');
+      await service.addPlayer('p2');
+      await service.addPlayer('p3');
+      await service.updatePlayerPoints('p3', 30000);
+      await service.updatePlayerPoints('p2', 20000);
+
+      const actual = await service.getPlayers();
+      expect(actual).toEqual([
+        {
+          points: 30000,
+          pseudo: 'p3',
+        },
+        {
+          points: 25000,
+          pseudo: 'p1',
+        },
+        {
+          points: 20000,
+          pseudo: 'p2',
+        },
+      ]);
     });
   });
 
@@ -84,23 +146,5 @@ describe('TournamentsService', () => {
     await expect(service.getPlayerInfo('userInfo')).rejects.toThrow(
       PlayerNotFoundException,
     );
-  });
-
-  it('should call get all player', async () => {
-    await service.addPlayer('p1');
-    await service.addPlayer('p2');
-    await service.updatePlayerPoints('p1', 200);
-
-    const actual = await service.getPlayers();
-    expect(actual).toEqual([
-      {
-        points: 200,
-        pseudo: 'p1',
-      },
-      {
-        points: 500,
-        pseudo: 'p2',
-      },
-    ]);
   });
 });
