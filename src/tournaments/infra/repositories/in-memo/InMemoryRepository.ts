@@ -1,5 +1,5 @@
-import { ITournamentRepository } from '../domain/repositories/ITournament.repository';
-import { Player } from '../domain/models/Player';
+import { ITournamentRepository } from '../../../application/ports/output-driven/ITournament.repository';
+import { Player } from '../../../domain/models/Player';
 
 export const DEFAULT_STACK = 500;
 
@@ -26,10 +26,10 @@ export class InMemoryRepository implements ITournamentRepository {
     return Promise.resolve(this.players);
   }
 
-  updatePlayerPoints(pseudo: string, points): Promise<void> {
+  updatePlayerPoints(player: Player): Promise<void> {
     this.players = this.players.map((p) => {
-      if (p.pseudo === pseudo) {
-        return { ...p, points: points };
+      if (p.pseudo === player.pseudo) {
+        return { ...p, points: player.points };
       }
       return p;
     });
