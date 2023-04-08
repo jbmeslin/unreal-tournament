@@ -1,0 +1,9 @@
+version: "3.8"
+
+services:
+  mongodb:
+    image: mongo:latest
+    environment:
+      - MONGODB_DATABASE="tournament"
+    ports:
+      - "27017:27017"

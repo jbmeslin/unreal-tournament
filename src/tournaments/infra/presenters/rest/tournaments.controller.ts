@@ -42,7 +42,7 @@ export class TournamentsController {
       if (error instanceof PlayerAlreadyExistException) {
         throw new ConflictException(error.message);
       }
-      throw new BadRequestException();
+      throw new BadRequestException(error.message);
     });
   }
 

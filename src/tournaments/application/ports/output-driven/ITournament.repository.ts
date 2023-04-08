@@ -1,7 +1,7 @@
 import { Player } from '../../../domain/models/Player';
 
 export interface ITournamentRepository {
-  addPlayer(pseudo: string): Promise<Player>;
+  addPlayer(pseudo: string, points: number): Promise<Player>;
   updatePlayerPoints(player: Player): Promise<void>;
   getPlayer(pseudo: string): Promise<Player>;
   getPlayers(): Promise<Player[]>;

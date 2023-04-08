@@ -6,3 +6,5 @@ export class Tournament {
   }
   players: Player[];
 }
+
+export const DEFAULT_STACK = 25000;

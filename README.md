@@ -7,6 +7,7 @@ Node js REST API with [Nest](https://github.com/nestjs/nest)
 
 ```bash
 $ npm install
+$ docker-compose up
 ```
 
 ## Running the app
