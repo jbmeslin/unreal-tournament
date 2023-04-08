@@ -2,11 +2,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TournamentsService } from './tournaments.service';
 import { PlayerAlreadyExistException } from '../../../domain/exceptions/PlayerAlreadyExistException';
 
-import {
-  DEFAULT_STACK,
-  InMemoryRepository,
-} from '../../../infra/repositories/in-memo/InMemoryRepository';
+import { InMemoryRepository } from '../../../infra/repositories/in-memo/InMemoryRepository';
 import { PlayerNotFoundException } from '../../../domain/exceptions/PlayerNotFoundException';
+import { DEFAULT_STACK } from '../../../domain/models/Tournament';
 
 describe('TournamentsService', () => {
   let service: TournamentsService;

@@ -3,6 +3,7 @@ import { ITournamentRepository } from '../output-driven/ITournament.repository';
 import { Player, PlayerInfo } from '../../../domain/models/Player';
 import { PlayerAlreadyExistException } from '../../../domain/exceptions/PlayerAlreadyExistException';
 import { PlayerNotFoundException } from '../../../domain/exceptions/PlayerNotFoundException';
+import { DEFAULT_STACK } from '../../../domain/models/Tournament';
 
 @Injectable()
 export class TournamentsService {
@@ -16,7 +17,7 @@ export class TournamentsService {
     if (player) {
       throw new PlayerAlreadyExistException(pseudo);
     }
-    return this.tournamentRepository.addPlayer(pseudo);
+    return this.tournamentRepository.addPlayer(pseudo, DEFAULT_STACK);
   }
 
   deletePlayers(): Promise<void> {

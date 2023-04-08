@@ -1,17 +1,12 @@
-export class Player {
-  constructor(public readonly pseudo: string, points: number) {
-    this.points = points;
-  }
-  public points: number;
+export interface Player {
+  readonly pseudo: string;
+  readonly points: number;
 }
 
-export class PlayerInfo extends Player {
+export class PlayerInfo implements Player {
   constructor(
     public readonly pseudo: string,
     public readonly points: number,
     public readonly position,
-  ) {
-    super(pseudo, position);
-    this.position = points;
-  }
+  ) {}
 }

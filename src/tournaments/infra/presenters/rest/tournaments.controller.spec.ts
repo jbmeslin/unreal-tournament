@@ -1,11 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TournamentsController } from './tournaments.controller';
 import { TournamentsService } from '../../../application/ports/input-driving/tournaments.service';
-import {
-  DEFAULT_STACK,
-  InMemoryRepository,
-} from '../../repositories/in-memo/InMemoryRepository';
+import { InMemoryRepository } from '../../repositories/in-memo/InMemoryRepository';
 import { ConflictException, NotFoundException } from '@nestjs/common';
+import { DEFAULT_STACK } from '../../../domain/models/Tournament';
 
 describe('TournamentsController', () => {
   let controller: TournamentsController;

@@ -2,14 +2,12 @@ import { ITournamentRepository } from '../../../application/ports/output-driven/
 import { Player } from '../../../domain/models/Player';
 import { Tournament } from '../../../domain/models/Tournament';
 
-export const DEFAULT_STACK = 25000;
-
 export class InMemoryRepository implements ITournamentRepository {
   // private players: Player[] = [];
   private tournament: Tournament = new Tournament();
 
-  addPlayer(pseudo: string): Promise<Player> {
-    let player = new Player(pseudo, DEFAULT_STACK);
+  addPlayer(pseudo: string, points: number): Promise<Player> {
+    let player = { pseudo, points } as Player;
     this.tournament.players.push(player);
     return Promise.resolve(player);
   }
