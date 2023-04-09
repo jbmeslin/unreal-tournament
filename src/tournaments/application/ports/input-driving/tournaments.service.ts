@@ -34,14 +34,18 @@ export class TournamentsService {
       throw new PlayerNotFoundException(pseudo);
     }
 
-    const position = players.lastIndexOf(player); // GetPlayerPositon may be should be implemented in Tournament
+    // GetPlayerPositon may be should be implemented in Tournament object
+    const position = players.lastIndexOf(player);
     return { ...player, position: position + 1 };
   }
 
   async getPlayers(): Promise<Player[]> {
     let players = await this.tournamentRepository.getPlayers();
+
+    //TODO refactoring
+    // sortPlayers  should be implemented in Tournament Domain object
+    // or ask the repo to do it faster add less memory/cpu usage for the app
     return players.sort((a, b) => {
-      // sortPlayers may be should be implemented in Tournament
       if (a.points > b.points) {
         return -1;
       }

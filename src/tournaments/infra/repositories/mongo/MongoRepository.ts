@@ -19,6 +19,8 @@ export class MongoRepository implements ITournamentRepository {
     private readonly model: Model<PlayerDocument>,
   ) {}
 
+  //TODO add test
+
   async addPlayer(pseudo: string, points: number): Promise<Player> {
     const playerDoc = await this.model.create({ pseudo, points });
     return mapToDomain(playerDoc);
@@ -32,7 +34,7 @@ export class MongoRepository implements ITournamentRepository {
   async getPlayer(pseudo: string): Promise<Player> {
     let playerDoc = await this.model.findOne({ pseudo }).exec();
     if (!playerDoc) {
-      return; //TODO add test
+      return;
     }
     return mapToDomain(playerDoc);
   }

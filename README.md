@@ -10,8 +10,16 @@ $ npm install
 $ docker-compose up
 ```
 
-## Running the app
+## Running the app 
 
+```bash
+$ docker-compose up
+```
+
+Once the application is running you can visit http://localhost:3000/api to see the Swagger interface et test the API
+
+
+## Running the app in dev
 ```bash
 # development
 $ npm run start
@@ -19,12 +27,7 @@ $ npm run start
 # watch mode
 $ npm run start:dev
 
-# production mode
-$ npm run start:prod
 ```
-
-Once the application is running you can visit http://localhost:3000/api to see the Swagger interface.
-
 
 
 ## Test
